@@ -4,6 +4,7 @@ import ButtonTick from "./ButtonTick";
 import Input from "./Input";
 import ButtonAction from "./ButtonAction";
 import InputDate from "./InputDate";
+import "./Task.css"
 
 export type TaskType = {
     id: number,

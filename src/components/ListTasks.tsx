@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { createContext, useContext } from "react";
 import Task, {TaskType} from "./Task";
 import ButtonAction from "./ButtonAction";
+import "./ListTasks.css"
 
 const initialTasksState: TaskType[] = [];
 const initialListContext: {
@@ -38,7 +39,7 @@ export default function ListTasks(){
                 })}
             </ListContext.Provider>
             <div className={"ListControls"}>
-                <ButtonAction text={"Добавить задачу"} onClicked={addItem} />
+                <ButtonAction text={"➕"} onClicked={addItem} />
             </div>
         </div>
     );
