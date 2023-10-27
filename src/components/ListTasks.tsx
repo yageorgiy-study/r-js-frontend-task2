@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { createContext, useContext } from "react";
 import Task, {TaskType} from "./Task";
 import ButtonAction from "./ButtonAction";
@@ -16,8 +16,29 @@ const initialListContext: {
 export const ListContext = createContext(initialListContext);
 
 export default function ListTasks(){
-    const [tasks, setTasks] = useState(initialTasksState);
-    const [nextTaskNumber, setNextTaskNumber] = useState(1);
+
+    function dateTimeReviver(key: any, value: any): any {
+        if (typeof value === 'string') {
+            let a= Date.parse(value);
+            if (!isNaN(a)) {
+                return new Date(a);
+            }
+        }
+
+        return value;
+    }
+
+    const parsedTasks: TaskType[] = JSON.parse(localStorage.getItem('tasks') ?? "[]", dateTimeReviver) ?? [];
+    const [tasks, setTasks]
+        = useState(parsedTasks);
+    const [nextTaskNumber, setNextTaskNumber]
+        = useState(parseInt(localStorage.getItem('nextTaskKey') ?? "0", 10) ?? 0);
+
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        localStorage.setItem('nextTaskKey', "" + tasks.length);
+    }, [tasks]);
+
 
     function addItem(){
         const newTask: TaskType = {
